@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+
+<!-- Establishment id / Hidden by default -->
+<TextView
+    android:id="@+id/establishment_id"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone" />
+
+<!-- Establishment Name -->
+<TextView
+    android:id="@+id/establishment_name"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:textSize="16dip"
+    android:textColor="#000000"
+    android:paddingTop="15dip"
+    android:paddingBottom="15dip"
+    android:paddingLeft="10dip"
+    android:textStyle="bold"/>
+
+
+
+</RelativeLayout>
