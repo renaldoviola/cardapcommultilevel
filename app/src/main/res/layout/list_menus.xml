@@ -4,23 +4,76 @@
     android:layout_height="match_parent">
 
 
-    <!-- Establishment id / Hidden by default -->
-    <TextView
-        android:id="@+id/establishment_id"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 
-    <!-- Menu id / Hidden by default -->
-    <TextView
-        android:id="@+id/menu_id"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout" >
+
+        <TextView
+            android:id="@+id/establishment_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="15dip"
+            android:paddingLeft="5dip"
+            android:paddingTop="15dip"
+            android:textColor="#000000"
+            android:textSize="16dip"
+            android:layout_alignParentLeft="true"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout1" >
 
     <TextView
         android:id="@+id/establishment_name"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dip"
+        android:paddingLeft="5dip"
+        android:paddingTop="15dip"
+        android:textColor="#000000"
+        android:textSize="16dip"
+        android:layout_alignParentLeft="true"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2" >
+    <TextView
+        android:id="@+id/establishment_city"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="15dip"
+        android:paddingLeft="5dip"
+        android:paddingTop="15dip"
+        android:textColor="#000000"
+        android:textSize="16dip"
+        android:layout_alignParentLeft="true"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout3" >
+
+    <TextView
+        android:id="@+id/establishment_uf"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="15dip"
         android:paddingLeft="5dip"
@@ -29,7 +82,16 @@
         android:textSize="16dip"
         android:layout_alignParentLeft="true"/>
 
-    <!-- Establishment Name -->
+    </LinearLayout>
+    <!-- Menu id / Hidden by default -->
+    <TextView
+        android:id="@+id/menu_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+    <!--
+     -->
+
     <TextView
         android:id="@+id/menu_data"
         android:layout_width="fill_parent"
@@ -60,5 +122,6 @@
         android:layout_centerVertical="true"
         android:paddingLeft="3dip"
         android:paddingRight="6dip"
-        android:textColor="#9ed321" />
+        android:textColor="#89be0d"
+        android:textSize="17dp" />
 </RelativeLayout>

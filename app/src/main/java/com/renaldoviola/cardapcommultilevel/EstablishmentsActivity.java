@@ -93,14 +93,14 @@ public class EstablishmentsActivity extends ListActivity {
                                     long arg3) {
                 // on selecting a single establishment
                 // TrackListActivity will be launched to show tracks inside the establishment
-                Intent i = new Intent(getApplicationContext(), MenusListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MenusListActivity.class);
 
                 // send establishment id to tracklist activity to get list of songs under that establishment
                 String establishment_id = ((TextView) view.findViewById(R.id.establishment_id)).getText().toString();
-                i.putExtra("establishment_id", establishment_id);
+                intent.putExtra("establishment_id", establishment_id);
 
 
-                startActivity(i);
+                startActivity(intent);
             }
         });
     }
@@ -131,6 +131,7 @@ public class EstablishmentsActivity extends ListActivity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
             // getting JSON string from URL
+
             String json = jsonParser.makeHttpRequest(URL_ESTABLISHMENTS, "GET",
                     params);
 
@@ -147,6 +148,7 @@ public class EstablishmentsActivity extends ListActivity {
                         JSONObject JOEstablishment = establishments.getJSONObject(i);
 
                         // Storing each json item values in variable
+                        String id = JOEstablishment.optString(TAG_ID);
                         String name = JOEstablishment.optString(TAG_NAME);
                         String city = JOEstablishment.optString(TAG_CITY);
                         String neighborhood = JOEstablishment.optString(TAG_NEIGHBORHOOD);
@@ -158,6 +160,7 @@ public class EstablishmentsActivity extends ListActivity {
                         HashMap<String, String> establishment = new HashMap<String, String>();
 
                         // adding each child node to HashMap key => value
+                        establishment.put(TAG_ID, id);
                         establishment.put(TAG_NAME, name);
                         establishment.put(TAG_CITY, city);
                         establishment.put(TAG_NEIGHBORHOOD, neighborhood);

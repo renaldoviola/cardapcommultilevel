@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.List;
 
 public class JSONParser {
@@ -47,6 +49,7 @@ public class JSONParser {
 				HttpPost httpPost = new HttpPost(url);
 				httpPost.setEntity(new UrlEncodedFormEntity(params));
 
+
 				HttpResponse httpResponse = httpClient.execute(httpPost);
 				HttpEntity httpEntity = httpResponse.getEntity();
 				is = httpEntity.getContent();
@@ -54,7 +57,11 @@ public class JSONParser {
 			} else if (method == "GET") {
 				// request method is GET
 				DefaultHttpClient httpClient = new DefaultHttpClient();
-				String paramString = URLEncodedUtils.format(params, "utf-8");
+
+
+				//String paramString = URLEncodedUtils.format(params, "UTF-8");
+				String paramString = URLEncodedUtils
+						.format(params, "utf-8");
 				url += "?" + paramString;
 				HttpGet httpGet = new HttpGet(url);
 
@@ -70,10 +77,11 @@ public class JSONParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		try {
+			//BufferedReader reader = new BufferedReader(new InputStreamReader(
+					//is, Charset.forName("ISO-8859-1")), 8);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					is, "iso-8859-1"), 8);
+					is, "utf-8"), 8);
 			StringBuilder sb = new StringBuilder();
 			String line = null;
 			while ((line = reader.readLine()) != null) {

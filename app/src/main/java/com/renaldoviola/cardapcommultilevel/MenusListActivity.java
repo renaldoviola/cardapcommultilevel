@@ -57,10 +57,25 @@ public class MenusListActivity extends ListActivity {
 
     // tracks JSON url
     // id - should be posted as GET params to get menu list (ex: id = 5)
-    private static final String URL_MENUS = "http://cardapcom-rails.herokuapp.com/api/v1/establishments";
+
+    // Get Establishment id
+    String URL_MENUS = "http://cardapcom-rails.herokuapp.com/api/v1/establishments";
+
+
+    // OBJECT establishment
+    private static final String TAG_EST_ID   = "id";
+    private static final String TAG_EST_NAME = "name";
+    private static final String TAG_EST_CITY = "city";
+    private static final String TAG_EST_UF   = "state";
+
+    String nameEstablishment;
+    String cityEstablishment;
+    String stateEstablishment;
+    String idestablishment;
 
     // JSON menus
     private static final String TAG_ID_MEN      = "id";
+    private static final String TAG_ID_MEN_EST  = "establishment_id";
     private static final String TAG_DATA        = "data";
     private static final String TAG_WEEKDAY     = "weekday";
     private static final String TAG_PRICE       = "price";
@@ -83,51 +98,43 @@ public class MenusListActivity extends ListActivity {
             return;
         }
 
-        // Get Establishment id
-        Intent i = getIntent();
-        establishment_id = i.getStringExtra("establishment_id");
+        Intent intent = getIntent();
+        establishment_id = intent.getStringExtra("establishment_id");
+
+        URL_MENUS = URL_MENUS + "/"+ establishment_id;
 
         // Hashmap for ListView
         menuList = new ArrayList<HashMap<String, String>>();
 
         // Loading tracks in Background Thread
-        new LoadTracks().execute();
+        new LoadMenus().execute();
 
         // get listview
         ListView lv = getListView();
 
-        /**
-         * Listview on item click listener
-         * SingleTrackActivity will be lauched by passing establishment id, song id
-         * */
-        /*
         lv.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int arg2,
                                     long arg3) {
                 // On selecting single track get song information
-                Intent i = new Intent(getApplicationContext(), SingleTrackActivity.class);
+                Intent i = new Intent(getApplicationContext(), ItemsListActivity.class);
 
-                // to get song information
-                // both establishment id and song is needed
                 String establishment_id = ((TextView) view.findViewById(R.id.establishment_id)).getText().toString();
-                String song_id = ((TextView) view.findViewById(R.id.song_id)).getText().toString();
-
-                Toast.makeText(getApplicationContext(), "establishment Id: " + establishment_id + ", Song Id: " + song_id, Toast.LENGTH_SHORT).show();
+                String menu_id = ((TextView) view.findViewById(R.id.menu_id)).getText().toString();
 
                 i.putExtra("establishment_id", establishment_id);
-                i.putExtra("song_id", song_id);
+                i.putExtra("menu_id", menu_id);
 
                 startActivity(i);
             }
-        }); */
+        });
 
     }
 
     /**
      * Background Async Task to Load all tracks under one establishment
      * */
-    class LoadTracks extends AsyncTask<String, String, String> {
+    class LoadMenus extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -147,58 +154,65 @@ public class MenusListActivity extends ListActivity {
          * */
         protected String doInBackground(String... args) {
             // Building Parameters
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            //List<NameValuePair> params = new ArrayList<NameValuePair>();
 
             // post establishment id as GET parameter
-            params.add(new BasicNameValuePair(TAG_ID_MEN, establishment_id));
+            //params.add(new BasicNameValuePair(TAG_ID_MEN, establishment_id));
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
 
             // getting JSON string from URL
-            String json = jsonParser.makeHttpRequest(URL_MENUS, "GET",
-                    params);
+            String json = jsonParser.makeHttpRequest(URL_MENUS, "GET", params);
 
+            Log.d("URL_MENUS: ", URL_MENUS);
 
             // Check your log cat for JSON reponse
             Log.d("Menu List JSON: ", json);
 
             try {
                 JSONObject jsonObj = new JSONObject(json);
-                establishments = jsonObj.getJSONObject(
-                        "establishments");
 
-                if (establishments != null) {
+                    //establishment_name = jsonObj.getString("name");
 
-                    for (int i = 0; i < establishments.length(); i++){
+                    JSONObject establishment = jsonObj.getJSONObject("establishment");
 
-                        menus = jsonObj.getJSONArray("menus");
+                    idestablishment = establishment.optString(TAG_EST_ID);
+                    nameEstablishment = establishment.optString(TAG_EST_NAME);
+                    cityEstablishment = establishment.optString(TAG_EST_CITY);
+                    stateEstablishment = establishment.optString(TAG_EST_UF);
 
-                        if (menus != null) {
-                            // looping through All songs
-                            for (int j = 0; j < menus.length(); j++) {
-                                JSONObject JOMenu = menus.getJSONObject(j);
 
-                                String id_men = JOMenu.optString(TAG_ID_MEN);
-                                String data = JOMenu.optString(TAG_DATA);
-                                String weekday = JOMenu.optString(TAG_WEEKDAY);
-                                String price = JOMenu.optString(TAG_PRICE);
-                                String status_men = JOMenu.optString(TAG_STATUS_MEN);
 
-                                HashMap<String, String> menu = new HashMap<String, String>();
+                    menus = establishment.getJSONArray("menus");
 
-                                menu.put(TAG_ID_MEN, id_men);
-                                menu.put(TAG_DATA, data);
-                                menu.put(TAG_WEEKDAY, weekday);
-                                menu.put(TAG_PRICE, price);
-                                menu.put(TAG_STATUS_MEN, status_men);
+                    Log.d("Menu List JSON: ", establishment.toString());
 
-                                menuList.add(menu);
-                            }
-                        } else {
-                            Log.d("Menus: ", "null");
+                    if (menus != null) {
+                        for (int j = 0; j < menus.length(); j++) {
+                            JSONObject JOMenu = menus.getJSONObject(j);
+
+
+                            String id_men = JOMenu.optString(TAG_ID_MEN);
+                            String id_men_est = JOMenu.optString(TAG_ID_MEN_EST);
+                            String data = JOMenu.optString(TAG_DATA);
+                            String weekday = JOMenu.optString(TAG_WEEKDAY);
+                            String price = JOMenu.optString(TAG_PRICE);
+                            String status_men = JOMenu.optString(TAG_STATUS_MEN);
+
+                            HashMap<String, String> menu = new HashMap<String, String>();
+
+                            menu.put(TAG_ID_MEN_EST, id_men_est);
+                            menu.put(TAG_ID_MEN, id_men);
+                            menu.put(TAG_DATA, data);
+                            menu.put(TAG_WEEKDAY, weekday);
+                            menu.put(TAG_PRICE, price);
+                            //menu.put(TAG_STATUS_MEN, status_men);
+
+                            menuList.add(menu);
                         }
+                    } else {
+                        Log.d("Menus: ", "null");
                     }
-                }else {
-                    Log.d("Establishments: ", "null");
-                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -221,14 +235,14 @@ public class MenusListActivity extends ListActivity {
                      * */
                     ListAdapter adapter = new SimpleAdapter(
                             MenusListActivity.this, menuList,
-                            R.layout.list_menus, new String[] { "establishment_id", TAG_DATA,
-                            TAG_WEEKDAY, TAG_PRICE}, new int[] {
-                            R.id.establishment_id, R.id.establishment_name, R.id.menu_id, R.id.menu_data, R.id.menu_diasemana, R.id.menu_preco});
+                            R.layout.list_menus, new String[] {TAG_ID_MEN_EST, TAG_EST_NAME, TAG_EST_CITY, TAG_EST_UF,
+                                                                TAG_ID_MEN ,TAG_DATA, TAG_WEEKDAY, TAG_PRICE},
+                            new int[] {R.id.establishment_id, R.id.establishment_name, R.id.establishment_city, R.id.establishment_uf, R.id.menu_id, R.id.menu_data, R.id.menu_diasemana, R.id.menu_preco});
                     // updating listview
                     setListAdapter(adapter);
 
                     // Change Activity Title with Establishment name
-                    setTitle(establishment_name);
+                    //setTitle(establishment_name);
                 }
             });
 

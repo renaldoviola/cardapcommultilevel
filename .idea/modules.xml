@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CardapcomMultilevel.iml" filepath="$PROJECT_DIR$/CardapcomMultilevel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidtablayoutactivity/androidtablayoutactivity.iml" filepath="$PROJECT_DIR$/androidtablayoutactivity/androidtablayoutactivity.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
