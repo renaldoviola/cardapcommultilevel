@@ -24,6 +24,21 @@ android:orientation="vertical">
     android:paddingLeft="10dip"
     android:textStyle="bold"/>
 
+    <RatingBar
+        android:id="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="3dip"
+        android:paddingRight="6dip"
+        android:numStars="5"
+        android:stepSize="1"
+        android:rating="1"
+        android:isIndicator="true"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
 
 </RelativeLayout>
